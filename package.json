@@ -1,0 +1,26 @@
+{
+  "name": "clinica-medica-turnos",
+  "version": "1.0.0",
+  "description": "Gestion de turnos medicos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nancycrojas/TFI-ProgIII-grupo-av.git"
+  },
+  "author": "grupo-av",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nancycrojas/TFI-ProgIII-grupo-av/issues"
+  },
+  "homepage": "https://github.com/nancycrojas/TFI-ProgIII-grupo-av#readme",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "mysql2": "^3.22.3"
+  }
+}
