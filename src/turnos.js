@@ -1,13 +1,14 @@
 import express from "express";
 
-import { router as V1EspecialidadesRutas } from "./rutas/v1/especialidadesRutas.js";
-
 import { testConexion } from "./db/test-conexion.js";
+import { validarContentType } from "./middlewares/validarContentType.js";
+import { router as V1EspecialidadesRutas } from "./rutas/v1/especialidadesRutas.js";
 
 const app = express();
 
 await testConexion();
 
+app.use(validarContentType);
 app.use(express.json());
 
 app.get("/", (req, res) => {

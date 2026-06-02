@@ -75,23 +75,19 @@ export default class EspecialidadesControlador {
   modificar = async (req, res) => {
     try {
       const id_especialidad = req.params.id_especialidad;
-
       const { nombre } = req.body;
-
-      const especialidad =
-        await this.especialidades.buscarPorId(id_especialidad);
-
-      if (!especialidad) {
-        return res.status(404).json({
-          estado: false,
-          msg: "Especialidad no encontrada",
-        });
-      }
 
       const result = await this.especialidades.modificar(
         id_especialidad,
         nombre,
       );
+
+      if (!result) {
+        return res.status(404).json({
+          estado: false,
+          msg: "Especialidad no encontrada",
+        });
+      }
 
       if (result.affectedRows === 0) {
         return res.status(400).json({
@@ -118,22 +114,12 @@ export default class EspecialidadesControlador {
     try {
       const id_especialidad = req.params.id_especialidad;
 
-      const especialidad =
-        await this.especialidades.buscarPorId(id_especialidad);
+      const result = await this.especialidades.borrar(id_especialidad);
 
-      if (!especialidad) {
+      if (!result) {
         return res.status(404).json({
           estado: false,
           msg: "Especialidad no encontrada",
-        });
-      }
-
-      const result = await this.especialidades.borrar(id_especialidad);
-
-      if (result.affectedRows === 0) {
-        return res.status(400).json({
-          estado: false,
-          msg: "No se pudo eliminar la especialidad",
         });
       }
 
