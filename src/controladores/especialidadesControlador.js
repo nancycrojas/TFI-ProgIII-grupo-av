@@ -19,14 +19,13 @@ export default class EspecialidadesControlador {
   buscarPorId = async (req, res) => {
     try {
       const id_especialidad = req.params.id_especialidad;
-
       const especialidad =
         await this.especialidades.buscarPorId(id_especialidad);
 
-      if (!especialidad) {
+      if (especialidad.length === 0) {
         return res.status(404).json({
           estado: false,
-          msg: "Especialidad no encontrada",
+          msg: "Especialidad no encontrada.",
         });
       }
 
@@ -48,9 +47,13 @@ export default class EspecialidadesControlador {
     try {
       const { nombre } = req.body;
 
-      const result = await this.especialidades.crear(nombre);
+      const especialidad = {
+        nombre: nombre,
+      };
 
-      if (result.affectedRows === 0) {
+      const nuevaEspecialidad = await this.especialidades.crear(especialidad);
+
+      if (!nuevaEspecialidad || nuevaEspecialidad.length === 0) {
         return res.status(400).json({
           estado: false,
           msg: "No se pudo crear la especialidad",
@@ -60,7 +63,7 @@ export default class EspecialidadesControlador {
       res.status(201).json({
         estado: true,
         msg: "Especialidad creada",
-        id_especialidad: result.insertId,
+        especialidad: nuevaEspecialidad,
       });
     } catch (error) {
       console.log(`Error en POST /especialidades ${error}`);
@@ -77,28 +80,26 @@ export default class EspecialidadesControlador {
       const id_especialidad = req.params.id_especialidad;
       const { nombre } = req.body;
 
-      const result = await this.especialidades.modificar(
+      const especialidad = {
+        nombre: nombre,
+      };
+
+      const especialidadModificada = await this.especialidades.modificar(
         id_especialidad,
-        nombre,
+        especialidad,
       );
 
-      if (!result) {
+      if (especialidadModificada === null) {
         return res.status(404).json({
           estado: false,
           msg: "Especialidad no encontrada",
         });
       }
 
-      if (result.affectedRows === 0) {
-        return res.status(400).json({
-          estado: false,
-          msg: "No se pudo modificar la especialidad",
-        });
-      }
-
       res.status(200).json({
         estado: true,
         msg: "Especialidad modificada",
+        especialidad: especialidadModificada,
       });
     } catch (error) {
       console.log(`Error en PUT /especialidades/:id ${error}`);
@@ -114,19 +115,16 @@ export default class EspecialidadesControlador {
     try {
       const id_especialidad = req.params.id_especialidad;
 
-      const result = await this.especialidades.borrar(id_especialidad);
+      const resultado = await this.especialidades.borrar(id_especialidad);
 
-      if (!result) {
+      if (resultado === null) {
         return res.status(404).json({
           estado: false,
           msg: "Especialidad no encontrada",
         });
       }
 
-      res.status(200).json({
-        estado: true,
-        msg: "Especialidad eliminada",
-      });
+      return res.status(204).send();
     } catch (error) {
       console.log(`Error en DELETE /especialidades/:id ${error}`);
 

@@ -15,32 +15,48 @@ export default class Especialidades {
 
     const [especialidades] = await pool.execute(sql, [id_especialidad]);
 
-    return especialidades[0];
+    return especialidades;
   };
 
-  crear = async (nombre) => {
+  crear = async (especialidad) => {
+    const { nombre } = especialidad;
+
     const sql = "INSERT INTO especialidades (nombre) VALUES (?)";
 
     const [result] = await pool.execute(sql, [nombre]);
 
-    return result;
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return result.insertId;
   };
 
-  modificar = async (id_especialidad, nombre) => {
+  modificar = async (id_especialidad, especialidad) => {
+    const { nombre } = especialidad;
+
     const sql =
-      "UPDATE especialidades SET nombre = ? WHERE id_especialidad = ? AND activo = 1";
+      "UPDATE especialidades SET nombre = ? WHERE id_especialidad = ?";
 
     const [result] = await pool.execute(sql, [nombre, id_especialidad]);
 
-    return result;
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return id_especialidad;
   };
 
   borrar = async (id_especialidad) => {
     const sql =
-      "UPDATE especialidades SET activo = 0 WHERE id_especialidad = ? AND activo = 1";
+      "UPDATE especialidades SET activo = 0 WHERE id_especialidad = ?";
 
     const [result] = await pool.execute(sql, [id_especialidad]);
 
-    return result;
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return true;
   };
 }
