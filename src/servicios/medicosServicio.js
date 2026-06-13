@@ -1,11 +1,13 @@
 import Especialidades from "../db/especialidades.js";
 import Medicos from "../db/medicos.js";
+import MedicosObrasSociales from "../db/medicosObrasSociales.js";
 import MedicosRespuestaDTO from "../dtos/medicosRespuestaDTO.js";
 import ObrasSocialesRespuestaDTO from "../dtos/obrasSocialesRespuestaDTO.js";
 
 export default class MedicosServicio {
   constructor() {
     this.medicos = new Medicos();
+    this.medicosObrasSociales = new MedicosObrasSociales();
     this.especialidades = new Especialidades();
   }
 
@@ -34,10 +36,11 @@ export default class MedicosServicio {
     const obrasSocialesNuevas = [];
 
     for (const id_obra_social of idsUnicos) {
-      const existe = await this.medicos.buscarRelacionMedicoObraSocial(
-        id_medico,
-        id_obra_social,
-      );
+      const existe =
+        await this.medicosObrasSociales.buscarRelacionMedicoObraSocial(
+          id_medico,
+          id_obra_social,
+        );
 
       if (existe.length === 0) {
         obrasSocialesNuevas.push({ id_obra_social });
@@ -48,7 +51,10 @@ export default class MedicosServicio {
       return false;
     }
 
-    return this.medicos.relacionarConObraSocial(id_medico, obrasSocialesNuevas);
+    return this.medicosObrasSociales.relacionarConObraSocial(
+      id_medico,
+      obrasSocialesNuevas,
+    );
   };
 
   buscarObrasSociales = async (id_medico) => {
@@ -58,7 +64,8 @@ export default class MedicosServicio {
       return null;
     }
 
-    const datos = await this.medicos.buscarObrasSociales(id_medico);
+    const datos =
+      await this.medicosObrasSociales.buscarObrasSociales(id_medico);
 
     return datos.map((row) => new ObrasSocialesRespuestaDTO(row));
   };
@@ -80,15 +87,19 @@ export default class MedicosServicio {
   };
 
   eliminarMedicoObraSocial = async (id_medico, id_obra_social) => {
-    const relacion = await this.medicos.buscarRelacionMedicoObraSocial(
-      id_medico,
-      id_obra_social,
-    );
+    const relacion =
+      await this.medicosObrasSociales.buscarRelacionMedicoObraSocial(
+        id_medico,
+        id_obra_social,
+      );
 
     if (relacion.length === 0) {
       return null;
     }
 
-    return this.medicos.eliminarMedicoObraSocial(id_medico, id_obra_social);
+    return this.medicosObrasSociales.eliminarMedicoObraSocial(
+      id_medico,
+      id_obra_social,
+    );
   };
 }
