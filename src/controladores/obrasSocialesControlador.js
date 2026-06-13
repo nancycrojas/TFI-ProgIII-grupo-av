@@ -11,14 +11,14 @@ export default class ObrasSocialesControlador {
 
       res.status(200).json({
         estado: true,
-        mensaje: "Obras Sociales encontradas.",
-        datos: obrasSociales,
+        msg: "Obras Sociales encontradas.",
+        obrasSociales: obrasSociales,
       });
     } catch (error) {
       console.log(`Error en GET /obras-sociales ${error}`);
       res.status(500).json({
         estado: false,
-        mensaje: "Error interno",
+        msg: "Error interno",
       });
     }
   };
@@ -31,20 +31,20 @@ export default class ObrasSocialesControlador {
       if (obraSocial.length === 0) {
         return res.status(404).json({
           estado: false,
-          mensaje: "Obra Social no encontrada.",
+          msg: "Obra Social no encontrada.",
         });
       }
 
       return res.status(200).json({
         estado: true,
-        mensaje: "Obra Social encontrada.",
-        datos: obraSocial,
+        msg: "Obra Social encontrada.",
+        obraSocial: obraSocial,
       });
     } catch (error) {
       console.log(`Error en GET /obras-sociales/:id_obra_social ${error}`);
       res.status(500).json({
         estado: false,
-        mensaje: "Error interno.",
+        msg: "Error interno.",
       });
     }
   };
@@ -58,20 +58,20 @@ export default class ObrasSocialesControlador {
       if (!nuevaObraSocial || nuevaObraSocial.length === 0) {
         return res.status(400).json({
           estado: false,
-          mensaje: "No se pudo crear la obra social.",
+          msg: "No se pudo crear la obra social.",
         });
       }
 
       return res.status(201).json({
         estado: true,
-        mensaje: "Obra Social creada.",
-        datos: nuevaObraSocial,
+        msg: "Obra Social creada.",
+        obraSocial: nuevaObraSocial,
       });
     } catch (error) {
       console.log(`Error en POST /obras-sociales ${error}`);
       res.status(500).json({
         estado: false,
-        mensaje: "Error interno.",
+        msg: "Error interno.",
       });
     }
   };
@@ -86,8 +86,7 @@ export default class ObrasSocialesControlador {
       if (Object.keys(obraSocial).length === 0) {
         return res.status(400).json({
           estado: false,
-          mensaje:
-            "No se recibieron los datos de la Obra Social para modificar.",
+          msg: "No se recibieron los datos de la Obra Social para modificar.",
         });
       }
 
@@ -99,20 +98,20 @@ export default class ObrasSocialesControlador {
       if (obraSocialModificada === null) {
         return res.status(404).json({
           estado: false,
-          mensaje: "Obra Social no encontrada.",
+          msg: "Obra Social no encontrada.",
         });
       }
 
       return res.status(200).json({
         estado: true,
-        mensaje: "Obra Social modificada.",
-        datos: obraSocialModificada,
+        msg: "Obra Social modificada.",
+        obraSocial: obraSocialModificada,
       });
     } catch (error) {
       console.log(`Error en PUT /obras-sociales/:id_obra_social ${error}`);
       res.status(500).json({
         estado: false,
-        mensaje: "Error interno.",
+        msg: "Error interno.",
       });
     }
   };
@@ -125,7 +124,7 @@ export default class ObrasSocialesControlador {
       if (obraSocial === null) {
         return res.status(404).json({
           estado: false,
-          mensaje: "Obra Social no encontrada.",
+          msg: "Obra Social no encontrada.",
         });
       }
       // 204 No Content, la respuesta no tiene cuerpo, solo se indica que la operación fue exitosa
@@ -134,7 +133,7 @@ export default class ObrasSocialesControlador {
       console.log(`Error en PUT /obras-sociales/:id_obra_social ${error}`);
       res.status(500).json({
         estado: false,
-        mensaje: "Error interno.",
+        msg: "Error interno.",
       });
     }
   };

@@ -27,4 +27,16 @@ export default class TransformarDTO {
     req.dto = dto;
     next();
   };
+
+  medicosAsociarDTO = async (req, res, next) => {
+    const { id_medico } = req.params;
+    const { obras_sociales } = req.body;
+
+    req.dto = {
+      id_medico,
+      obras_sociales,
+    };
+
+    next();
+  };
 }
