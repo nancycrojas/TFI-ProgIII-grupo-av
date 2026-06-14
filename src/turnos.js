@@ -1,4 +1,6 @@
 import express from "express";
+import fs from "fs";
+import morgan from "morgan";
 
 import { testConexion } from "./db/test-conexion.js";
 import { validarContentType } from "./middlewares/validarContentType.js";
@@ -10,6 +12,13 @@ import { router as V1ObrasSocialesRutas } from "./rutas/v1/obrasSocialesRutas.js
 const app = express();
 
 await testConexion();
+
+let log = fs.createWriteStream("./accesos.log", {
+  flags: "a",
+});
+
+app.use(morgan("dev"));
+app.use(morgan("combined", { stream: log }));
 
 app.use(validarContentType);
 app.use(express.json());
