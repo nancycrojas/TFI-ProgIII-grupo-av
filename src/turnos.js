@@ -23,9 +23,4 @@ app.use("/api/v1/obras-sociales", V1ObrasSocialesRutas);
 app.use("/api/v1/medicos", v1MedicosRutas);
 app.use("/api/v1/medicos", V1MedicosObrasSocialesRutas);
 
-process.loadEnvFile();
-const PUERTO = process.env.PUERTO || 3000;
-
-app.listen(PUERTO, () => {
-  console.log(`servidor iniciado OK en puerto ${PUERTO}`);
-});
+export default app;
