@@ -1,3 +1,4 @@
+import apicache from "apicache";
 import express from "express";
 import { check, param } from "express-validator";
 import MedicosControlador from "../../controladores/medicosControlador.js";
@@ -5,9 +6,11 @@ import { validarCampos } from "../../middlewares/validarCampos.js";
 
 const router = express.Router();
 
+const cache = apicache.middleware;
+
 const medicosControlador = new MedicosControlador();
 
-router.get("/", medicosControlador.buscarTodos);
+router.get("/", cache("5 minutes"), medicosControlador.buscarTodos);
 
 router.get(
   "/especialidad/:id_especialidad",

@@ -1,3 +1,4 @@
+import apicache from "apicache";
 import ObrasSociales from "../db/obrasSociales.js";
 import ObrasSocialesRespuestaDTO from "../dtos/obrasSocialesRespuestaDTO.js";
 
@@ -18,6 +19,7 @@ export default class ObrasSocialesServicio {
 
   modificar = async (idObraSocial, obraSocial) => {
     const existe = await this.obrasSociales.buscarPorId(idObraSocial);
+
     if (existe.length === 0) {
       return null;
     }
@@ -26,19 +28,31 @@ export default class ObrasSocialesServicio {
       idObraSocial,
       obraSocial,
     );
+
+    apicache.clear();
+
     return this.buscarPorId(modificada);
   };
 
   crear = async (obraSocial) => {
     const nuevo_id = await this.obrasSociales.crear(obraSocial);
+
+    apicache.clear();
+
     return this.buscarPorId(nuevo_id);
   };
 
   eliminar = async (idObraSocial) => {
     const existe = await this.obrasSociales.buscarPorId(idObraSocial);
+
     if (existe.length === 0) {
       return null;
     }
-    return this.obrasSociales.eliminar(idObraSocial);
+
+    const resultado = await this.obrasSociales.eliminar(idObraSocial);
+
+    apicache.clear();
+
+    return resultado;
   };
 }

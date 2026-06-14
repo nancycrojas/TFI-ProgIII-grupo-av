@@ -1,3 +1,4 @@
+import apicache from "apicache";
 import Especialidades from "../db/especialidades.js";
 import Medicos from "../db/medicos.js";
 import MedicosRespuestaDTO from "../dtos/medicosRespuestaDTO.js";
@@ -38,6 +39,13 @@ export default class MedicosServicio {
       return null;
     }
 
-    return this.medicos.modificarEspecialidad(id_medico, id_especialidad);
+    const resultado = await this.medicos.modificarEspecialidad(
+      id_medico,
+      id_especialidad,
+    );
+
+    apicache.clear();
+
+    return resultado;
   };
 }

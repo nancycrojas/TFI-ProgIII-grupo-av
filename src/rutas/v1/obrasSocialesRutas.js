@@ -1,3 +1,4 @@
+import apicache from "apicache";
 import express from "express";
 import { check, param } from "express-validator";
 import { validarCampos } from "../../middlewares/validarCampos.js";
@@ -7,10 +8,12 @@ import TransformarDTO from "../../middlewares/transformarDTOs.js";
 
 const router = express.Router();
 
+const cache = apicache.middleware;
+
 const obrasSocialesControlador = new ObrasSocialesControlador();
 const transformarDTO = new TransformarDTO();
 
-router.get("/", obrasSocialesControlador.buscarTodas);
+router.get("/", cache("5 minutes"), obrasSocialesControlador.buscarTodas);
 
 router.get(
   "/:id_obra_social",
