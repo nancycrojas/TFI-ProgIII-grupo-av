@@ -1,3 +1,4 @@
+import apicache from "apicache";
 import Especialidades from "../db/especialidades.js";
 
 export default class EspecialidadesServicio {
@@ -16,6 +17,8 @@ export default class EspecialidadesServicio {
   crear = async (especialidad) => {
     const nuevo_id = await this.especialidades.crear(especialidad);
 
+    apicache.clear();
+
     return this.buscarPorId(nuevo_id);
   };
 
@@ -31,6 +34,8 @@ export default class EspecialidadesServicio {
       especialidad,
     );
 
+    apicache.clear();
+
     return this.buscarPorId(modificado);
   };
 
@@ -41,6 +46,10 @@ export default class EspecialidadesServicio {
       return null;
     }
 
-    return this.especialidades.borrar(id_especialidad);
+    const resultado = await this.especialidades.borrar(id_especialidad);
+
+    apicache.clear();
+
+    return resultado;
   };
 }

@@ -1,3 +1,4 @@
+import apicache from "apicache";
 import express from "express";
 import { check, param } from "express-validator";
 import EspecialidadesControlador from "../../controladores/especialidadesControlador.js";
@@ -5,9 +6,12 @@ import { validarCampos } from "../../middlewares/validarCampos.js";
 
 const router = express.Router();
 
+const cache = apicache.middleware;
+
 const especialidadesControlador = new EspecialidadesControlador();
 
-router.get("/", especialidadesControlador.buscarTodas);
+router.get("/", cache("5 minutes"), especialidadesControlador.buscarTodas);
+
 router.get(
   "/:id_especialidad",
   [
@@ -16,6 +20,7 @@ router.get(
   ],
   especialidadesControlador.buscarPorId,
 );
+
 router.post(
   "/",
   [

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/nancycrojas/TFI-ProgIII-grupo-av#readme",
   "type": "module",
   "dependencies": {
+    "apicache": "^1.6.3",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
     "morgan": "^1.11.0",

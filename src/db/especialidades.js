@@ -2,6 +2,7 @@ import { pool } from "./conexion.js";
 
 export default class Especialidades {
   buscarTodas = async () => {
+    console.log("llega a capa de datosssss");
     const sql = "SELECT * FROM especialidades WHERE activo = 1";
 
     const [especialidades] = await pool.query(sql);
