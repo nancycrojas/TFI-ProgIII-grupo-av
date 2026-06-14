@@ -43,4 +43,16 @@ export default class Medicos {
 
     return true;
   };
+
+  buscarDatosParaTurno = async (id_medico) => {
+    const sql = `
+    SELECT id_medico, valor_consulta
+    FROM medicos
+    WHERE id_medico = ?
+  `;
+
+    const [medico] = await pool.execute(sql, [id_medico]);
+
+    return medico[0];
+  };
 }

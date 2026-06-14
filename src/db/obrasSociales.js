@@ -1,5 +1,4 @@
 import { pool } from "./conexion.js";
-
 export default class ObrasSociales {
   buscarTodas = async () => {
     const sql = "SELECT * FROM obras_sociales WHERE activo = 1";
@@ -73,5 +72,18 @@ export default class ObrasSociales {
       return null;
     }
     return true;
+  };
+
+  buscarDatosParaTurno = async (idObraSocial) => {
+    const sql = `
+    SELECT id_obra_social, porcentaje_descuento, es_particular
+    FROM obras_sociales
+    WHERE activo = 1
+    AND id_obra_social = ?
+  `;
+
+    const [obraSocial] = await pool.execute(sql, [idObraSocial]);
+
+    return obraSocial[0];
   };
 }

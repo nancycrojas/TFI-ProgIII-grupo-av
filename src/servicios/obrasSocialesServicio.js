@@ -1,7 +1,6 @@
 import apicache from "apicache";
 import ObrasSociales from "../db/obrasSociales.js";
 import ObrasSocialesRespuestaDTO from "../dtos/obrasSocialesRespuestaDTO.js";
-
 export default class ObrasSocialesServicio {
   constructor() {
     this.obrasSociales = new ObrasSociales();
@@ -54,5 +53,9 @@ export default class ObrasSocialesServicio {
     apicache.clear();
 
     return resultado;
+  };
+
+  buscarDatosParaTurno = async (id_obra_social) => {
+    return this.obrasSociales.buscarDatosParaTurno(id_obra_social);
   };
 }

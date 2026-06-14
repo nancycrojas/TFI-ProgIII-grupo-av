@@ -20,6 +20,10 @@ export default class MedicosServicio {
     return datos.map((row) => new MedicosRespuestaDTO(row));
   };
 
+  buscarDatosParaTurno = async (id_medico) => {
+    return this.medicos.buscarDatosParaTurno(id_medico);
+  };
+
   buscarPorEspecialidad = async (id_especialidad) => {
     const datos = await this.medicos.buscarPorEspecialidad(id_especialidad);
 
