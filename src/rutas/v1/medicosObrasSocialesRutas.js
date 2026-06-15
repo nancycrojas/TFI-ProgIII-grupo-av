@@ -3,6 +3,7 @@ import { check, param } from "express-validator";
 
 import MedicosObrasSocialesControlador from "../../controladores/medicosObrasSocialesControlador.js";
 
+import autorizarUsuarios from "../../middlewares/autorizarUsuarios.js";
 import TransformarDTO from "../../middlewares/transformarDTOs.js";
 import { validarCampos } from "../../middlewares/validarCampos.js";
 
@@ -14,6 +15,7 @@ const transformarDTO = new TransformarDTO();
 
 router.get(
   "/:id_medico/obras-sociales",
+  autorizarUsuarios([3]),
   [
     param("id_medico")
       .notEmpty()
@@ -27,6 +29,7 @@ router.get(
 
 router.post(
   "/:id_medico/obras-sociales",
+  autorizarUsuarios([3]),
   [
     param("id_medico")
       .notEmpty()
@@ -51,6 +54,7 @@ router.post(
 
 router.delete(
   "/:id_medico/obras-sociales/:id_obra_social",
+  autorizarUsuarios([3]),
   [
     param("id_medico")
       .notEmpty()

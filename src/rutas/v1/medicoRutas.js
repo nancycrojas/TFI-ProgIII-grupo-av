@@ -2,6 +2,7 @@ import apicache from "apicache";
 import express from "express";
 import { check, param } from "express-validator";
 import MedicosControlador from "../../controladores/medicosControlador.js";
+import autorizarUsuarios from "../../middlewares/autorizarUsuarios.js";
 import { validarCampos } from "../../middlewares/validarCampos.js";
 
 const router = express.Router();
@@ -10,10 +11,16 @@ const cache = apicache.middleware;
 
 const medicosControlador = new MedicosControlador();
 
-router.get("/", cache("5 minutes"), medicosControlador.buscarTodos);
+router.get(
+  "/",
+  autorizarUsuarios([3]),
+  cache("5 minutes"),
+  medicosControlador.buscarTodos,
+);
 
 router.get(
   "/especialidad/:id_especialidad",
+  autorizarUsuarios([2, 3]),
   [
     param("id_especialidad")
       .notEmpty()
@@ -27,6 +34,7 @@ router.get(
 
 router.put(
   "/:id_medico/especialidad",
+  autorizarUsuarios([3]),
   [
     param("id_medico")
       .notEmpty()
@@ -47,6 +55,7 @@ router.put(
 
 router.get(
   "/:id_medico",
+  autorizarUsuarios([3]),
   [
     param("id_medico")
       .notEmpty()

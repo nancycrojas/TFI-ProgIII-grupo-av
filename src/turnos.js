@@ -38,12 +38,6 @@ app.get("/", (req, res) => {
   res.status(200).send({ estado: true, msg: "API OK" });
 });
 
-// app.use("/api/v1/especialidades", V1EspecialidadesRutas);
-app.use("/api/v1/obras-sociales", V1ObrasSocialesRutas);
-app.use("/api/v1/medicos", V1MedicosRutas);
-app.use("/api/v1/medicos", V1MedicosObrasSocialesRutas);
-// app.use("/api/v1/turnos-reservas", V1TurnosReservas);
-
 // RUTAS QUE NECESITAN AUTORIZACIÓN
 app.use(
   "/api/v1/especialidades",
@@ -54,6 +48,21 @@ app.use(
   "/api/v1/turnos-reservas",
   passport.authenticate("jwt", { session: false }),
   V1TurnosReservas,
+);
+app.use(
+  "/api/v1/medicos",
+  passport.authenticate("jwt", { session: false }),
+  V1MedicosRutas,
+);
+app.use(
+  "/api/v1/medicos",
+  passport.authenticate("jwt", { session: false }),
+  V1MedicosObrasSocialesRutas,
+);
+app.use(
+  "/api/v1/obras-sociales",
+  passport.authenticate("jwt", { session: false }),
+  V1ObrasSocialesRutas,
 );
 
 app.use("/api/v1/auth", V1AuthRutas);

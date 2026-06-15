@@ -20,6 +20,7 @@ router.get(
 
 router.get(
   "/:id_especialidad",
+  autorizarUsuarios([2, 3]),
   [
     param("id_especialidad", "El parámetro debe ser entero").isInt(),
     validarCampos,
@@ -29,6 +30,7 @@ router.get(
 
 router.post(
   "/",
+  autorizarUsuarios([3]),
   [
     check("nombre")
       .notEmpty()
@@ -42,6 +44,7 @@ router.post(
 
 router.put(
   "/:id_especialidad",
+  autorizarUsuarios([3]),
   [
     param("id_especialidad", "El parámetro debe ser entero").isInt(),
     check("nombre")
@@ -56,6 +59,7 @@ router.put(
 
 router.delete(
   "/:id_especialidad",
+  autorizarUsuarios([3]),
   [
     param("id_especialidad", "El parámetro debe ser entero").isInt(),
     validarCampos,

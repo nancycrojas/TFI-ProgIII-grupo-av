@@ -13,12 +13,13 @@ const transformarDTO = new TransformarDTO();
 
 router.get(
   "/",
-  autorizarUsuarios([1, 2]),
+  autorizarUsuarios([1, 2, 3]),
   turnosReservasControlador.buscarTodas,
 );
 
 router.get(
   "/medico/:id_medico",
+  autorizarUsuarios([3]),
   [
     param("id_medico")
       .notEmpty()
@@ -32,6 +33,7 @@ router.get(
 
 router.get(
   "/paciente/:id_paciente",
+  autorizarUsuarios([3]),
   [
     param("id_paciente")
       .notEmpty()
@@ -45,6 +47,7 @@ router.get(
 
 router.get(
   "/:id_turno_reserva",
+  autorizarUsuarios([3]),
   [
     param("id_turno_reserva")
       .notEmpty()
@@ -58,6 +61,7 @@ router.get(
 
 router.patch(
   "/:id_turno_reserva/atendido",
+  autorizarUsuarios([1]),
   [
     param("id_turno_reserva")
       .notEmpty()
@@ -71,6 +75,7 @@ router.patch(
 
 router.delete(
   "/:id_turno_reserva",
+  autorizarUsuarios([3]),
   [
     param("id_turno_reserva")
       .notEmpty()
@@ -84,6 +89,7 @@ router.delete(
 
 router.post(
   "/",
+  autorizarUsuarios([2, 3]),
   [
     check("id_medico").notEmpty().withMessage("El id_medico es obligatorio."),
     check("id_paciente")

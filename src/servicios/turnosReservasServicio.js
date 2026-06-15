@@ -105,10 +105,17 @@ export default class TurnosReservasServicio {
     // SI ES MEDICO
     if (usuario.rol === 1) {
       return this.turnosReservas.turnosDeUnMedico(usuario.id_usuario);
-    } else {
-      // SI ES PACIENTE
+    }
+    // SI ES PACIENTE
+    if (usuario.rol === 2) {
       return this.turnosReservas.turnosDeUnPaciente(usuario.id_usuario);
     }
+    // SI ES ADMIN
+    if (usuario.rol === 3) {
+      return this.turnosReservas.buscarTodas();
+    }
+
+    return null;
   };
 
   buscarPorId = async (id_turno_reserva) => {

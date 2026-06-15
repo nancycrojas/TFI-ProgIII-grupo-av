@@ -1,6 +1,7 @@
 import apicache from "apicache";
 import express from "express";
 import { check, param } from "express-validator";
+import autorizarUsuarios from "../../middlewares/autorizarUsuarios.js";
 import { validarCampos } from "../../middlewares/validarCampos.js";
 
 import ObrasSocialesControlador from "../../controladores/obrasSocialesControlador.js";
@@ -13,10 +14,16 @@ const cache = apicache.middleware;
 const obrasSocialesControlador = new ObrasSocialesControlador();
 const transformarDTO = new TransformarDTO();
 
-router.get("/", cache("5 minutes"), obrasSocialesControlador.buscarTodas);
+router.get(
+  "/",
+  autorizarUsuarios([3]),
+  cache("5 minutes"),
+  obrasSocialesControlador.buscarTodas,
+);
 
 router.get(
   "/:id_obra_social",
+  autorizarUsuarios([3]),
   [
     param("id_obra_social", "El parámetro debe ser entero").isInt(),
     validarCampos,
@@ -26,6 +33,7 @@ router.get(
 
 router.post(
   "/",
+  autorizarUsuarios([3]),
   [
     check("nombre")
       .notEmpty()
@@ -59,6 +67,7 @@ router.post(
 
 router.put(
   "/:id_obra_social",
+  autorizarUsuarios([3]),
   [
     param("id_obra_social", "El parámetro debe ser entero").isInt(),
     check("nombre")
@@ -93,6 +102,7 @@ router.put(
 
 router.delete(
   "/:id_obra_social",
+  autorizarUsuarios([3]),
   [
     param("id_obra_social", "El parámetro debe ser entero").isInt(),
     validarCampos,
