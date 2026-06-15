@@ -97,8 +97,18 @@ export default class TurnosReservasServicio {
     return this.turnosReservas.marcarAtendido(id_turno_reserva);
   };
 
-  buscarTodas = async () => {
-    return this.turnosReservas.buscarTodas();
+  // buscarTodas = async () => {
+  //   return this.turnosReservas.buscarTodas();
+  // };
+
+  buscarTodas = async (usuario) => {
+    // SI ES MEDICO
+    if (usuario.rol === 1) {
+      return this.turnosReservas.turnosDeUnMedico(usuario.id_usuario);
+    } else {
+      // SI ES PACIENTE
+      return this.turnosReservas.turnosDeUnPaciente(usuario.id_usuario);
+    }
   };
 
   buscarPorId = async (id_turno_reserva) => {

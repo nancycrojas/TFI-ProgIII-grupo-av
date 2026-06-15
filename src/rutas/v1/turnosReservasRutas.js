@@ -1,5 +1,6 @@
 import express from "express";
 import { check, param } from "express-validator";
+import autorizarUsuarios from "../../middlewares/autorizarUsuarios.js";
 import { validarCampos } from "../../middlewares/validarCampos.js";
 
 import TurnosReservasControlador from "../../controladores/turnosReservasControlador.js";
@@ -10,7 +11,11 @@ const router = express.Router();
 const turnosReservasControlador = new TurnosReservasControlador();
 const transformarDTO = new TransformarDTO();
 
-router.get("/", turnosReservasControlador.buscarTodas);
+router.get(
+  "/",
+  autorizarUsuarios([1, 2]),
+  turnosReservasControlador.buscarTodas,
+);
 
 router.get(
   "/medico/:id_medico",

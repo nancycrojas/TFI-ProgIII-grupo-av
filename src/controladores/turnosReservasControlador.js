@@ -124,7 +124,7 @@ export default class TurnosReservasControlador {
 
   buscarTodas = async (req, res) => {
     try {
-      const turnosReservas = await this.turnosReservas.buscarTodas();
+      const turnosReservas = await this.turnosReservas.buscarTodas(req.user);
 
       return res.status(200).json({
         estado: true,

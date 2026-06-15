@@ -106,4 +106,61 @@ export default class TurnosReservas {
 
     return true;
   };
+
+  turnosDeUnMedico = async (id_usuario) => {
+    const sql = `SELECT 
+      tr.id_turno_reserva,
+      tr.fecha_hora,
+      tr.valor_total,
+      tr.atentido,
+      p.id_paciente,
+      CONCAT(up.nombres, ' ', up.apellido) AS paciente,
+      os.nombre AS obra_social
+    FROM usuarios AS u
+    INNER JOIN medicos AS m 
+      ON m.id_usuario = u.id_usuario
+    INNER JOIN turnos_reservas AS tr 
+      ON tr.id_medico = m.id_medico
+    LEFT JOIN pacientes AS p 
+      ON p.id_paciente = tr.id_paciente
+    LEFT JOIN usuarios AS up 
+      ON up.id_usuario = p.id_usuario
+    LEFT JOIN obras_sociales AS os 
+      ON os.id_obra_social = tr.id_obra_social
+    WHERE u.id_usuario = ?
+    AND tr.activo = 1
+    ORDER BY tr.fecha_hora ASC`;
+    const [turnos] = await pool.execute(sql, [id_usuario]);
+    return turnos;
+  };
+
+  turnosDeUnPaciente = async (id_usuario) => {
+    const sql = `SELECT 
+      tr.id_turno_reserva,
+      tr.fecha_hora,
+      tr.valor_total,
+      tr.atentido,
+      m.id_medico,
+      CONCAT(um.nombres, ' ', um.apellido) AS medico,
+      e.nombre AS especialidad,
+      os.nombre AS obra_social
+    FROM usuarios AS u
+    INNER JOIN pacientes AS p 
+      ON p.id_usuario = u.id_usuario
+    INNER JOIN turnos_reservas AS tr 
+      ON tr.id_paciente = p.id_paciente
+    LEFT JOIN medicos AS m 
+      ON m.id_medico = tr.id_medico
+    LEFT JOIN usuarios AS um 
+      ON um.id_usuario = m.id_usuario
+    LEFT JOIN especialidades AS e 
+      ON e.id_especialidad = m.id_especialidad
+    LEFT JOIN obras_sociales AS os 
+      ON os.id_obra_social = tr.id_obra_social
+    WHERE u.id_usuario = ?
+    AND tr.activo = 1
+    ORDER BY tr.fecha_hora ASC`;
+    const [turnos] = await pool.execute(sql, [id_usuario]);
+    return turnos;
+  };
 }
