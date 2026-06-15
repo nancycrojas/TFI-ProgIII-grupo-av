@@ -1,0 +1,24 @@
+Procesamiento almacenado utilizado para estadísticas
+
+Requerimiento: Obtener cantidad de turnos atendidos por especialidad durante el último mes y totalizar la facturación por especialidad.
+
+Rutina utilizada:
+sp_turnos_por_especialidad
+
+Descripción:
+La rutina agrupa los turnos activos y atendidos por especialidad médica, cuenta la cantidad de turnos y suma el valor_total para obtener la facturación total por especialidad.
+
+Forma de ejecución:
+CALL sp_turnos_por_especialidad();
+
+
+Requerimiento adicional: Obtener cantidad de pacientes por obra social.
+
+Rutina utilizada:
+sp_pacientes_por_obra_social
+
+Descripción:
+La rutina agrupa los pacientes activos según su obra social, indicando si la obra social es particular o no, y devuelve la cantidad total de pacientes asociados a cada obra social.
+
+Forma de ejecución:
+CALL sp_pacientes_por_obra_social();
