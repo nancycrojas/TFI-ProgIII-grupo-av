@@ -13,6 +13,7 @@ import { router as V1EspecialidadesRutas } from "./rutas/v1/especialidadesRutas.
 import { router as V1MedicosRutas } from "./rutas/v1/medicoRutas.js";
 import { router as V1MedicosObrasSocialesRutas } from "./rutas/v1/medicosObrasSocialesRutas.js";
 import { router as V1ObrasSocialesRutas } from "./rutas/v1/obrasSocialesRutas.js";
+import { router as V1PacientesRutas } from "./rutas/v1/pacientesRutas.js";
 import { router as V1TurnosReservas } from "./rutas/v1/turnosReservasRutas.js";
 
 const app = express();
@@ -63,6 +64,11 @@ app.use(
   "/api/v1/obras-sociales",
   passport.authenticate("jwt", { session: false }),
   V1ObrasSocialesRutas,
+);
+app.use(
+  "/api/v1/pacientes",
+  passport.authenticate("jwt", { session: false }),
+  V1PacientesRutas,
 );
 
 app.use("/api/v1/auth", V1AuthRutas);
