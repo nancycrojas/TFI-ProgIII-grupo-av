@@ -51,4 +51,24 @@ export default class TransformarDTO {
 
     next();
   };
+
+  usuariosActualizarDTO = async (req, res, next) => {
+    const { documento, apellido, nombres, email, rol } = req.body;
+
+    const dto = {};
+
+    if (documento !== undefined) dto.documento = documento;
+    if (apellido !== undefined) dto.apellido = apellido.trim();
+    if (nombres !== undefined) dto.nombres = nombres.trim();
+    if (email !== undefined) dto.email = email.trim().toLowerCase();
+    if (rol !== undefined) dto.rol = rol;
+
+    if (req.file) {
+      dto.foto_path = req.file.filename;
+    }
+
+    req.dto = dto;
+
+    next();
+  };
 }

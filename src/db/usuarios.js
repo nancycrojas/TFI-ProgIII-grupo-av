@@ -16,4 +16,15 @@ export default class Usuarios {
     const [result] = await pool.execute(sql, [email, contrasenia]);
     return result[0];
   };
+
+  modificar = async (id_usuario, datos) => {
+    const sql = `UPDATE usuarios SET ? WHERE id_usuario = ?;`;
+    const [result] = await pool.query(sql, [datos, id_usuario]);
+
+    if (result.affectedRows === 0) {
+      return false;
+    }
+
+    return true;
+  };
 }

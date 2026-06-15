@@ -1,11 +1,12 @@
 export const validarContentType = (req, res, next) => {
   if (
     ["POST", "PUT", "PATCH"].includes(req.method) &&
-    req.headers["content-type"] !== "application/json"
+    !req.is("application/json") &&
+    !req.is("multipart/form-data")
   ) {
     return res.status(415).json({
       estado: false,
-      mensaje: "Content-Type debe ser application/json",
+      msg: "Content-Type debe ser application/json o multipart/form-data",
     });
   }
   next();

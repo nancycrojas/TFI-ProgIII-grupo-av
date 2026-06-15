@@ -1,5 +1,4 @@
 import Usuarios from "../db/usuarios.js";
-
 export default class UsuariosServicio {
   constructor() {
     this.usuarios = new Usuarios();
@@ -11,5 +10,13 @@ export default class UsuariosServicio {
 
   buscar = (email, contrasenia) => {
     return this.usuarios.buscar(email, contrasenia);
+  };
+
+  modificar = async (id_usuario, datos) => {
+    const existe = await this.usuarios.buscarPorId(id_usuario);
+    if (!existe) {
+      return null;
+    }
+    return this.usuarios.modificar(id_usuario, datos);
   };
 }
