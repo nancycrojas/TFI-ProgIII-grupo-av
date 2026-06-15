@@ -18,4 +18,62 @@ export default class TurnosReservas {
     }
     return result.insertId;
   };
+
+  buscarPorMedico = async (id_medico) => {
+    const sql = `
+    SELECT *
+    FROM turnos_reservas
+    WHERE id_medico = ?
+    AND activo = 1
+    ORDER BY fecha_hora ASC
+  `;
+
+    const [turnosReservas] = await pool.execute(sql, [id_medico]);
+
+    return turnosReservas;
+  };
+
+  buscarPorPaciente = async (id_paciente) => {
+    const sql = `
+    SELECT *
+    FROM turnos_reservas
+    WHERE id_paciente = ?
+    AND activo = 1
+    ORDER BY fecha_hora ASC
+  `;
+
+    const [turnosReservas] = await pool.execute(sql, [id_paciente]);
+
+    return turnosReservas;
+  };
+
+  buscarPorId = async (id_turno_reserva) => {
+    const sql = `
+    SELECT *
+    FROM turnos_reservas
+    WHERE id_turno_reserva = ?
+    AND activo = 1
+  `;
+
+    const [turnoReserva] = await pool.execute(sql, [id_turno_reserva]);
+
+    return turnoReserva[0];
+  };
+
+  marcarAtendido = async (id_turno_reserva) => {
+    const sql = `
+    UPDATE turnos_reservas
+    SET atentido = 1
+    WHERE id_turno_reserva = ?
+    AND activo = 1
+  `;
+
+    const [result] = await pool.execute(sql, [id_turno_reserva]);
+
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return true;
+  };
 }

@@ -31,4 +31,94 @@ export default class TurnosReservasControlador {
       });
     }
   };
+
+  buscarPorMedico = async (req, res) => {
+    try {
+      const { id_medico } = req.params;
+
+      const turnosReservas =
+        await this.turnosReservas.buscarPorMedico(id_medico);
+
+      if (turnosReservas === null) {
+        return res.status(404).json({
+          estado: false,
+          msg: "Médico no encontrado.",
+        });
+      }
+
+      return res.status(200).json({
+        estado: true,
+        msg: "Turnos del médico encontrados.",
+        turnosReservas: turnosReservas,
+      });
+    } catch (error) {
+      console.log(`Error en GET /turnos-reservas/medico/:id_medico ${error}`);
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
+
+  buscarPorPaciente = async (req, res) => {
+    try {
+      const { id_paciente } = req.params;
+
+      const turnosReservas =
+        await this.turnosReservas.buscarPorPaciente(id_paciente);
+
+      if (turnosReservas === null) {
+        return res.status(404).json({
+          estado: false,
+          msg: "Paciente no encontrado.",
+        });
+      }
+
+      return res.status(200).json({
+        estado: true,
+        msg: "Turnos del paciente encontrados.",
+        turnosReservas: turnosReservas,
+      });
+    } catch (error) {
+      console.log(
+        `Error en GET /turnos-reservas/paciente/:id_paciente ${error}`,
+      );
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
+
+  marcarAtendido = async (req, res) => {
+    try {
+      const { id_turno_reserva } = req.params;
+
+      const resultado =
+        await this.turnosReservas.marcarAtendido(id_turno_reserva);
+
+      if (resultado === null) {
+        return res.status(404).json({
+          estado: false,
+          msg: "Turno no encontrado.",
+        });
+      }
+
+      return res.status(200).json({
+        estado: true,
+        msg: "Turno marcado como atendido.",
+      });
+    } catch (error) {
+      console.log(
+        `Error en PATCH /turnos-reservas/:id_turno_reserva/atendido ${error}`,
+      );
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
 }

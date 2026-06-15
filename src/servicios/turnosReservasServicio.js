@@ -61,4 +61,39 @@ export default class TurnosReservasServicio {
 
     return new TurnosReservasRespuestaDTO(turnoReservaCreado);
   };
+
+  buscarPorMedico = async (id_medico) => {
+    const medico = await this.medicos.buscarDatosParaTurno(id_medico);
+
+    if (!medico) {
+      return null;
+    }
+
+    return this.turnosReservas.buscarPorMedico(id_medico);
+  };
+
+  buscarPorPaciente = async (id_paciente) => {
+    const paciente = await this.pacientes.buscarPorId(id_paciente);
+
+    if (!paciente) {
+      return null;
+    }
+
+    return this.turnosReservas.buscarPorPaciente(id_paciente);
+  };
+
+  marcarAtendido = async (id_turno_reserva) => {
+    const turnoReserva =
+      await this.turnosReservas.buscarPorId(id_turno_reserva);
+
+    if (!turnoReserva) {
+      return null;
+    }
+
+    if (Number(turnoReserva.atentido) === 1) {
+      return true;
+    }
+
+    return this.turnosReservas.marcarAtendido(id_turno_reserva);
+  };
 }
