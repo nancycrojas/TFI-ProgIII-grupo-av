@@ -89,4 +89,21 @@ export default class TurnosReservas {
 
     return turnosReservas;
   };
+
+  eliminar = async (id_turno_reserva) => {
+    const sql = `
+    UPDATE turnos_reservas
+    SET activo = 0
+    WHERE id_turno_reserva = ?
+    AND activo = 1
+  `;
+
+    const [result] = await pool.execute(sql, [id_turno_reserva]);
+
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return true;
+  };
 }

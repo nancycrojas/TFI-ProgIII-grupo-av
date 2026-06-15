@@ -64,6 +64,19 @@ router.patch(
   turnosReservasControlador.marcarAtendido,
 );
 
+router.delete(
+  "/:id_turno_reserva",
+  [
+    param("id_turno_reserva")
+      .notEmpty()
+      .withMessage("El id_turno_reserva es obligatorio.")
+      .isInt()
+      .withMessage("El id_turno_reserva debe ser un número entero."),
+    validarCampos,
+  ],
+  turnosReservasControlador.eliminar,
+);
+
 router.post(
   "/",
   [

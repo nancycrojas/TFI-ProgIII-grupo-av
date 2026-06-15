@@ -169,4 +169,30 @@ export default class TurnosReservasControlador {
       });
     }
   };
+
+  eliminar = async (req, res) => {
+    try {
+      const { id_turno_reserva } = req.params;
+
+      const resultado = await this.turnosReservas.eliminar(id_turno_reserva);
+
+      if (resultado === null) {
+        return res.status(404).json({
+          estado: false,
+          msg: "Turno no encontrado.",
+        });
+      }
+
+      return res.status(204).send();
+    } catch (error) {
+      console.log(
+        `Error en DELETE /turnos-reservas/:id_turno_reserva ${error}`,
+      );
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
 }

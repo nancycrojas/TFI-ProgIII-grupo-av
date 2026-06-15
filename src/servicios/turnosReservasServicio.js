@@ -111,4 +111,15 @@ export default class TurnosReservasServicio {
 
     return turnoReserva;
   };
+
+  eliminar = async (id_turno_reserva) => {
+    const turnoReserva =
+      await this.turnosReservas.buscarPorId(id_turno_reserva);
+
+    if (!turnoReserva) {
+      return null;
+    }
+
+    return this.turnosReservas.eliminar(id_turno_reserva);
+  };
 }
