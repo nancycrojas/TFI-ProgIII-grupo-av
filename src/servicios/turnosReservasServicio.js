@@ -96,4 +96,19 @@ export default class TurnosReservasServicio {
 
     return this.turnosReservas.marcarAtendido(id_turno_reserva);
   };
+
+  buscarTodas = async () => {
+    return this.turnosReservas.buscarTodas();
+  };
+
+  buscarPorId = async (id_turno_reserva) => {
+    const turnoReserva =
+      await this.turnosReservas.buscarPorId(id_turno_reserva);
+
+    if (!turnoReserva) {
+      return null;
+    }
+
+    return turnoReserva;
+  };
 }

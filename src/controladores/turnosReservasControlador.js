@@ -121,4 +121,52 @@ export default class TurnosReservasControlador {
       });
     }
   };
+
+  buscarTodas = async (req, res) => {
+    try {
+      const turnosReservas = await this.turnosReservas.buscarTodas();
+
+      return res.status(200).json({
+        estado: true,
+        msg: "Turnos encontrados.",
+        turnosReservas: turnosReservas,
+      });
+    } catch (error) {
+      console.log(`Error en GET /turnos-reservas ${error}`);
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
+
+  buscarPorId = async (req, res) => {
+    try {
+      const { id_turno_reserva } = req.params;
+
+      const turnoReserva =
+        await this.turnosReservas.buscarPorId(id_turno_reserva);
+
+      if (turnoReserva === null) {
+        return res.status(404).json({
+          estado: false,
+          msg: "Turno no encontrado.",
+        });
+      }
+
+      return res.status(200).json({
+        estado: true,
+        msg: "Turno encontrado.",
+        turnoReserva: turnoReserva,
+      });
+    } catch (error) {
+      console.log(`Error en GET /turnos-reservas/:id_turno_reserva ${error}`);
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
 }

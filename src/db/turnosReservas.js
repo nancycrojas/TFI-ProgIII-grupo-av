@@ -76,4 +76,17 @@ export default class TurnosReservas {
 
     return true;
   };
+
+  buscarTodas = async () => {
+    const sql = `
+    SELECT *
+    FROM turnos_reservas
+    WHERE activo = 1
+    ORDER BY fecha_hora ASC
+  `;
+
+    const [turnosReservas] = await pool.execute(sql);
+
+    return turnosReservas;
+  };
 }

@@ -10,6 +10,8 @@ const router = express.Router();
 const turnosReservasControlador = new TurnosReservasControlador();
 const transformarDTO = new TransformarDTO();
 
+router.get("/", turnosReservasControlador.buscarTodas);
+
 router.get(
   "/medico/:id_medico",
   [
@@ -34,6 +36,19 @@ router.get(
     validarCampos,
   ],
   turnosReservasControlador.buscarPorPaciente,
+);
+
+router.get(
+  "/:id_turno_reserva",
+  [
+    param("id_turno_reserva")
+      .notEmpty()
+      .withMessage("El id_turno_reserva es obligatorio.")
+      .isInt()
+      .withMessage("El id_turno_reserva debe ser un número entero."),
+    validarCampos,
+  ],
+  turnosReservasControlador.buscarPorId,
 );
 
 router.patch(
