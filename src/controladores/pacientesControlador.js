@@ -82,4 +82,21 @@ export default class PacientesControlador {
       });
     }
   };
+
+  porObraSocial = async (req, res) => {
+    try {
+      const { buffer, headers } = await this.pacientes.porObraSocial();
+
+      res.set(headers);
+
+      return res.status(200).end(buffer);
+    } catch (error) {
+      console.log(`Error en GET /pacientes/por-obra-social ${error}`);
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
 }

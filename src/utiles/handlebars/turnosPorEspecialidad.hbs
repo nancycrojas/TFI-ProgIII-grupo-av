@@ -1,0 +1,164 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Informe de Turnos por Especialidad</title>
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 35px;
+        color: #263238;
+        background-color: #ffffff;
+      }
+
+      .encabezado {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 18px;
+        background-color: #e3f2fd;
+        border-bottom: 4px solid #1976d2;
+        border-radius: 8px;
+      }
+
+      .encabezado h1 {
+        margin: 0;
+        color: #0d47a1;
+        font-size: 24px;
+      }
+
+      .encabezado p {
+        margin: 6px 0 0 0;
+        color: #455a64;
+        font-size: 14px;
+      }
+
+      .info {
+        margin-bottom: 20px;
+        padding: 12px;
+        background-color: #f5f7fa;
+        border-left: 4px solid #1976d2;
+        border-radius: 6px;
+      }
+
+      .info p {
+        margin: 4px 0;
+        font-size: 13px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 13px;
+      }
+
+      th {
+        padding: 12px;
+        background-color: #1976d2;
+        color: white;
+        border: 1px solid #1565c0;
+        text-align: left;
+      }
+
+      td {
+        padding: 10px;
+        border: 1px solid #cfd8dc;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f4f8fb;
+      }
+
+      tbody tr:nth-child(odd) {
+        background-color: #ffffff;
+      }
+
+      .texto-derecha {
+        text-align: right;
+      }
+
+      .texto-centro {
+        text-align: center;
+      }
+
+      .total {
+        font-weight: bold;
+        background-color: #e8f5e9;
+        color: #1b5e20;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .badge-particular {
+        background-color: #fff3e0;
+        color: #e65100;
+      }
+
+      .badge-obra-social {
+        background-color: #e8f5e9;
+        color: #1b5e20;
+      }
+
+      .footer {
+        margin-top: 30px;
+        padding-top: 12px;
+        border-top: 1px solid #cfd8dc;
+        text-align: center;
+        font-size: 11px;
+        color: #78909c;
+      }
+    </style>
+
+  </head>
+  <body>
+
+    <div class="encabezado">
+      <h1>Informe de Turnos por Especialidad</h1>
+      <p>Sistema de Gestión de Turnos Médicos</p>
+    </div>
+
+    <div class="info">
+      <p><strong>Fecha de emisión:</strong> {{fecha}}</p>
+      <p><strong>Fuente:</strong> Sistema de Gestión de Turnos Médicos</p>
+    </div>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Especialidad</th>
+          <th>Cantidad de Turnos</th>
+          <th>Facturación Total</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {{#each especialidades}}
+          <tr>
+            <td>
+              {{especialidad}}
+            </td>
+
+            <td class="texto-centro">
+              {{cantidad_turnos}}
+            </td>
+
+            <td class="texto-derecha">
+              <strong>$ {{facturacion_total}}</strong>
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+
+    </table>
+
+  </body>
+</html>

@@ -163,4 +163,12 @@ export default class TurnosReservas {
     const [turnos] = await pool.execute(sql, [id_usuario]);
     return turnos;
   };
+
+  turnosPorEspecialidad = async () => {
+    const sql = `CALL sp_turnos_por_especialidad()`;
+    const [resultado] = await pool.query(sql);
+
+    console.log(resultado[0]);
+    return resultado[0];
+  };
 }

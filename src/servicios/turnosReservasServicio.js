@@ -3,6 +3,7 @@ import TurnosReservasRespuestaDTO from "../dtos/turnosReservasRespuestaDTO.js";
 import MedicosServicio from "../servicios/medicosServicio.js";
 import ObrasSocialesServicio from "../servicios/obrasSocialesServicio.js";
 import PacientesServicio from "../servicios/pacientesServicio.js";
+import InformeServicio from "./informesServicio.js";
 
 export default class TurnosReservasServicio {
   constructor() {
@@ -10,6 +11,7 @@ export default class TurnosReservasServicio {
     this.medicos = new MedicosServicio();
     this.pacientes = new PacientesServicio();
     this.obrasSociales = new ObrasSocialesServicio();
+    this.informes = new InformeServicio();
   }
 
   crear = async (turnoReserva) => {
@@ -97,9 +99,21 @@ export default class TurnosReservasServicio {
     return this.turnosReservas.marcarAtendido(id_turno_reserva);
   };
 
-  // buscarTodas = async () => {
-  //   return this.turnosReservas.buscarTodas();
-  // };
+  porEspecialidad = async () => {
+    // BUSCO LOS DATOS
+    const datos = await this.turnosReservas.turnosPorEspecialidad();
+    // SERVICIO PARA GENERAR ARCHIVO PDF
+    const pdf = await this.informes.reportePorEspecialidades(datos);
+
+    return {
+      buffer: pdf,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition":
+          'inline; filename ="reporte-turnos-por-especialidad.pdf"',
+      },
+    };
+  };
 
   buscarTodas = async (usuario) => {
     // SI ES MEDICO

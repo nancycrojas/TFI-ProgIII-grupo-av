@@ -9,6 +9,12 @@ const router = express.Router();
 
 const pacientesControlador = new PacientesControlador();
 
+router.get(
+  "/por-obra-social",
+  autorizarUsuarios([3]),
+  pacientesControlador.porObraSocial,
+);
+
 router.get("/", autorizarUsuarios([3]), pacientesControlador.buscarTodos);
 
 router.get(

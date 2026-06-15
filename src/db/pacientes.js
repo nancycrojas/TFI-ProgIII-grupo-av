@@ -64,4 +64,10 @@ export default class Pacientes {
 
     return true;
   };
+
+  pacientesPorObraSocial = async () => {
+    const sql = `CALL sp_pacientes_por_obra_social()`;
+    const [resultado] = await pool.query(sql);
+    return resultado[0];
+  };
 }

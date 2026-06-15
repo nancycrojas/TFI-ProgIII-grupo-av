@@ -12,6 +12,12 @@ const turnosReservasControlador = new TurnosReservasControlador();
 const transformarDTO = new TransformarDTO();
 
 router.get(
+  "/por-especialidad",
+  autorizarUsuarios([3]),
+  turnosReservasControlador.porEspecialidad,
+);
+
+router.get(
   "/",
   autorizarUsuarios([1, 2, 3]),
   turnosReservasControlador.buscarTodas,
