@@ -13,7 +13,7 @@ const medicosControlador = new MedicosControlador();
 
 router.get(
   "/",
-  autorizarUsuarios([3]),
+  autorizarUsuarios([2, 3]),
   cache("5 minutes"),
   medicosControlador.buscarTodos,
 );

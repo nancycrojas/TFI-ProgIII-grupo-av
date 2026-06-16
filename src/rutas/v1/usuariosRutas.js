@@ -1,14 +1,12 @@
 import express from "express";
-import multer from "multer";
+import { upload } from "../../config/multer.js";
 
 import { check, param } from "express-validator";
-import { storage } from "../../config/multer.js";
 import UsuariosControlador from "../../controladores/usuariosControlador.js";
 import autorizarUsuarios from "../../middlewares/autorizarUsuarios.js";
 import TransformarDTO from "../../middlewares/transformarDTOs.js";
 import { validarCampos } from "../../middlewares/validarCampos.js";
 
-const upload = multer({ storage });
 const transformarDTO = new TransformarDTO();
 const router = express.Router();
 const usuariosControlador = new UsuariosControlador();
@@ -16,6 +14,7 @@ const usuariosControlador = new UsuariosControlador();
 router.put(
   "/:id_usuario",
   autorizarUsuarios([3]),
+  upload.single("foto"),
   [
     param("id_usuario", "El parámetro debe ser entero").isInt(),
     check("documento").optional(),
@@ -26,7 +25,6 @@ router.put(
     check("rol").optional(),
     validarCampos,
   ],
-  upload.single("foto"),
   transformarDTO.usuariosActualizarDTO,
   usuariosControlador.modificar,
 );

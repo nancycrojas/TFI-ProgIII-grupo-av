@@ -1,11 +1,10 @@
+import cors from "cors";
 import express from "express";
 import fs from "fs";
 import morgan from "morgan";
 import passport from "passport";
 
-// IMPORTAMOS LA ESTRATEGIA A USAR Y LA FORMA DE VALIDAR.
 import { estrategia, validacion } from "./config/passport.js";
-
 import { testConexion } from "./db/test-conexion.js";
 import { validarContentType } from "./middlewares/validarContentType.js";
 import { router as V1AuthRutas } from "./rutas/v1/authRutas.js";
@@ -21,7 +20,6 @@ const app = express();
 
 await testConexion();
 
-// CONFIGURACION PASSPORT
 passport.use(estrategia);
 passport.use(validacion);
 app.use(passport.initialize());
@@ -34,13 +32,13 @@ app.use(morgan("dev"));
 app.use(morgan("combined", { stream: log }));
 
 app.use(validarContentType);
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.status(200).send({ estado: true, msg: "API OK" });
 });
 
-// RUTAS QUE NECESITAN AUTORIZACIÓN
 app.use(
   "/api/v1/especialidades",
   passport.authenticate("jwt", { session: false }),

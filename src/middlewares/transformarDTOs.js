@@ -64,7 +64,7 @@ export default class TransformarDTO {
     if (rol !== undefined) dto.rol = rol;
 
     if (req.file) {
-      dto.foto_path = req.file.filename;
+      dto.foto_path = `/uploads/${req.file.filename}`;
     }
 
     req.dto = dto;
