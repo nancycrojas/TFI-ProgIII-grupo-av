@@ -11,6 +11,25 @@ const cache = apicache.middleware;
 
 const medicosControlador = new MedicosControlador();
 
+/**
+ * @swagger
+ * /api/v1/medicos:
+ *   get:
+ *     summary: Listar todos los médicos activos
+ *     tags:
+ *       - Médicos
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de médicos.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.get(
   "/",
   autorizarUsuarios([2, 3]),
@@ -18,6 +37,36 @@ router.get(
   medicosControlador.buscarTodos,
 );
 
+/**
+ * @swagger
+ * /api/v1/medicos/especialidad/{id_especialidad}:
+ *   get:
+ *     summary: Listar médicos por especialidad
+ *     tags:
+ *       - Médicos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id_especialidad
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la especialidad
+ *     responses:
+ *       200:
+ *         description: Lista de médicos de la especialidad indicada.
+ *       400:
+ *         description: Parámetro inválido.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: No se encontraron médicos para esa especialidad.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.get(
   "/especialidad/:id_especialidad",
   autorizarUsuarios([2, 3]),
@@ -32,6 +81,48 @@ router.get(
   medicosControlador.buscarPorEspecialidad,
 );
 
+/**
+ * @swagger
+ * /api/v1/medicos/{id_medico}/especialidad:
+ *   put:
+ *     summary: Asociar o modificar la especialidad de un médico
+ *     tags:
+ *       - Médicos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id_medico
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id_especialidad
+ *             properties:
+ *               id_especialidad:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Especialidad del médico modificada correctamente.
+ *       400:
+ *         description: Datos inválidos.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: Médico o especialidad no encontrada.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.put(
   "/:id_medico/especialidad",
   autorizarUsuarios([3]),
@@ -53,6 +144,36 @@ router.put(
   medicosControlador.modificarEspecialidad,
 );
 
+/**
+ * @swagger
+ * /api/v1/medicos/{id_medico}:
+ *   get:
+ *     summary: Obtener un médico por ID
+ *     tags:
+ *       - Médicos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id_medico
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *     responses:
+ *       200:
+ *         description: Médico encontrado.
+ *       400:
+ *         description: Parámetro inválido.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: Médico no encontrado.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.get(
   "/:id_medico",
   autorizarUsuarios([3]),

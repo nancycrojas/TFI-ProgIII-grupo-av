@@ -3,6 +3,8 @@ import express from "express";
 import fs from "fs";
 import morgan from "morgan";
 import passport from "passport";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 
 import { estrategia, validacion } from "./config/passport.js";
 import { testConexion } from "./db/test-conexion.js";
@@ -76,5 +78,6 @@ app.use(
 );
 
 app.use("/api/v1/auth", V1AuthRutas);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default app;

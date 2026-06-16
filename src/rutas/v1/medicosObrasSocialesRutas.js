@@ -13,6 +13,36 @@ const medicosObrasSocialesControlador = new MedicosObrasSocialesControlador();
 
 const transformarDTO = new TransformarDTO();
 
+/**
+ * @swagger
+ * /api/v1/medicos/{id_medico}/obras-sociales:
+ *   get:
+ *     summary: Listar obras sociales asociadas a un médico
+ *     tags:
+ *       - Médicos Obras Sociales
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id_medico
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *     responses:
+ *       200:
+ *         description: Lista de obras sociales asociadas al médico.
+ *       400:
+ *         description: Parámetro inválido.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: Médico no encontrado.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.get(
   "/:id_medico/obras-sociales",
   autorizarUsuarios([3]),
@@ -27,6 +57,60 @@ router.get(
   medicosObrasSocialesControlador.buscarObrasSociales,
 );
 
+/**
+ * @swagger
+ * /api/v1/medicos/{id_medico}/obras-sociales:
+ *   post:
+ *     summary: Asociar obras sociales a un médico
+ *     tags:
+ *       - Médicos Obras Sociales
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id_medico
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - obras_sociales
+ *             properties:
+ *               obras_sociales:
+ *                 type: array
+ *                 minItems: 1
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - id_obra_social
+ *                   properties:
+ *                     id_obra_social:
+ *                       type: integer
+ *                       example: 1
+ *           example:
+ *             obras_sociales:
+ *               - id_obra_social: 1
+ *               - id_obra_social: 2
+ *     responses:
+ *       201:
+ *         description: Obras sociales asociadas correctamente.
+ *       400:
+ *         description: Datos inválidos.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: Médico u obra social no encontrada.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.post(
   "/:id_medico/obras-sociales",
   autorizarUsuarios([3]),
@@ -52,6 +136,42 @@ router.post(
   medicosObrasSocialesControlador.asociarMedicoObrasSociales,
 );
 
+/**
+ * @swagger
+ * /api/v1/medicos/{id_medico}/obras-sociales/{id_obra_social}:
+ *   delete:
+ *     summary: Eliminar asociación entre médico y obra social
+ *     tags:
+ *       - Médicos Obras Sociales
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id_medico
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *       - in: path
+ *         name: id_obra_social
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la obra social
+ *     responses:
+ *       200:
+ *         description: Asociación eliminada correctamente.
+ *       400:
+ *         description: Parámetro inválido.
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: Asociación no encontrada.
+ *       500:
+ *         description: Error interno del servidor.
+ */
 router.delete(
   "/:id_medico/obras-sociales/:id_obra_social",
   autorizarUsuarios([3]),
