@@ -160,6 +160,69 @@ router.get(
 
 /**
  * @swagger
+ * /api/v1/turnos-reservas/proximo-a-llamar:
+ *   get:
+ *     summary: Obtener el próximo turno pendiente a llamar
+ *     tags:
+ *       - Turnos Reservas
+ *     security:
+ *       - bearerAuth: []
+ *     description: >
+ *       Devuelve el próximo turno activo que todavía no fue marcado como atendido.
+ *       Puede ser consultado por médicos, pacientes y administradores.
+ *     responses:
+ *       200:
+ *         description: Próximo turno obtenido correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 estado:
+ *                   type: boolean
+ *                   example: true
+ *                 msg:
+ *                   type: string
+ *                   example: Próximo turno a llamar.
+ *                 datos:
+ *                   type: object
+ *                   properties:
+ *                     id_turno_reserva:
+ *                       type: integer
+ *                       example: 15
+ *                     fecha_hora:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2025-06-20 15:30:00"
+ *                     atentido:
+ *                       type: integer
+ *                       example: 0
+ *                     id_medico:
+ *                       type: integer
+ *                       example: 3
+ *                     medico:
+ *                       type: string
+ *                       example: Juan Pérez
+ *                     especialidad:
+ *                       type: string
+ *                       example: Cardiología
+ *       401:
+ *         description: Token no enviado o inválido.
+ *       403:
+ *         description: Usuario sin permisos.
+ *       404:
+ *         description: No hay turnos pendientes para llamar.
+ *       500:
+ *         description: Error interno del servidor.
+ */
+router.get(
+  "/proximo-a-llamar",
+  autorizarUsuarios([1, 2, 3]),
+  turnosReservasControlador.proximoALlamar,
+);
+
+/**
+ * @swagger
  * /api/v1/turnos-reservas/{id_turno_reserva}:
  *   get:
  *     summary: Obtener un turno por ID

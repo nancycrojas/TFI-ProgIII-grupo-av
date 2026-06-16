@@ -212,4 +212,30 @@ export default class TurnosReservasControlador {
       });
     }
   };
+
+  proximoALlamar = async (req, res) => {
+    try {
+      const turno = await this.turnosReservas.proximoALlamar();
+
+      if (!turno) {
+        return res.status(404).json({
+          estado: false,
+          msg: "No hay turnos pendientes para llamar.",
+        });
+      }
+
+      res.status(200).json({
+        estado: true,
+        msg: "Próximo turno a llamar.",
+        datos: turno,
+      });
+    } catch (error) {
+      console.log(`Error en GET /turnos-reservas/proximo-a-llamar ${error}`);
+
+      res.status(500).json({
+        estado: false,
+        msg: "Error interno.",
+      });
+    }
+  };
 }

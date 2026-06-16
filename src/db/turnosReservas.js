@@ -171,4 +171,31 @@ export default class TurnosReservas {
     console.log(resultado[0]);
     return resultado[0];
   };
+
+  proximoALlamar = async () => {
+    const sql = `
+    SELECT
+      tr.id_turno_reserva,
+      tr.fecha_hora,
+      tr.atentido,
+      m.id_medico,
+      CONCAT(um.nombres, ' ', um.apellido) AS medico,
+      e.nombre AS especialidad
+    FROM turnos_reservas AS tr
+    INNER JOIN medicos AS m
+      ON m.id_medico = tr.id_medico
+    INNER JOIN usuarios AS um
+      ON um.id_usuario = m.id_usuario
+    LEFT JOIN especialidades AS e
+      ON e.id_especialidad = m.id_especialidad
+    WHERE tr.activo = 1
+    AND tr.atentido = 0
+    ORDER BY tr.fecha_hora ASC
+    LIMIT 1
+  `;
+
+    const [turnos] = await pool.execute(sql);
+
+    return turnos[0];
+  };
 }

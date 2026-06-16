@@ -153,4 +153,8 @@ export default class TurnosReservasServicio {
 
     return this.turnosReservas.eliminar(id_turno_reserva);
   };
+
+  proximoALlamar = async () => {
+    return this.turnosReservas.proximoALlamar();
+  };
 }
