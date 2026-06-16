@@ -127,7 +127,6 @@ export default class ObrasSocialesControlador {
           msg: "Obra Social no encontrada.",
         });
       }
-      // 204 No Content, la respuesta no tiene cuerpo, solo se indica que la operación fue exitosa
       return res.status(204).send();
     } catch (error) {
       console.log(`Error en PUT /obras-sociales/:id_obra_social ${error}`);

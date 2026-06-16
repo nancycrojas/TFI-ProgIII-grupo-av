@@ -10,12 +10,10 @@ export default class AuthController {
           mensaje: "Solicitud incorrecta.",
         });
       }
-      // ARMO EL TOKEN Y ENVIO CLIENTE
       req.login(usuario, { session: false }, (err) => {
         if (err) {
           res.send(err);
         }
-        // ARMAMOS EL TOKEN CON LOS DATOS DEL USUARIO Y UNA EXPIRACION
         const token = jwt.sign(usuario, process.env.JWT_SECRET, {
           expiresIn: "1h",
         });

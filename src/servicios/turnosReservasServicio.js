@@ -100,9 +100,8 @@ export default class TurnosReservasServicio {
   };
 
   porEspecialidad = async () => {
-    // BUSCO LOS DATOS
     const datos = await this.turnosReservas.turnosPorEspecialidad();
-    // SERVICIO PARA GENERAR ARCHIVO PDF
+
     const pdf = await this.informes.reportePorEspecialidades(datos);
 
     return {
@@ -116,15 +115,14 @@ export default class TurnosReservasServicio {
   };
 
   buscarTodas = async (usuario) => {
-    // SI ES MEDICO
     if (usuario.rol === 1) {
       return this.turnosReservas.turnosDeUnMedico(usuario.id_usuario);
     }
-    // SI ES PACIENTE
+
     if (usuario.rol === 2) {
       return this.turnosReservas.turnosDeUnPaciente(usuario.id_usuario);
     }
-    // SI ES ADMIN
+
     if (usuario.rol === 3) {
       return this.turnosReservas.buscarTodas();
     }

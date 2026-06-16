@@ -48,8 +48,6 @@ export default class MedicosObrasSociales {
               relacion.id_medico_obra_social,
             ]);
           }
-
-          // Si ya existe y está activa, no hago nada.
         } else {
           const sqlInsert = `
           INSERT INTO medicos_obras_sociales 
